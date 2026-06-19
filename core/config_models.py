@@ -29,7 +29,10 @@ class CapabilityType(str, Enum):
 
 class ProviderConfig(BaseModel):
     """Base configuration for AI providers"""
-    name: str = Field(..., description="Provider name (ollama, openai, etc.)")
+    name: Literal["ollama", "openai", "anthropic", "custom"] = Field(
+        ..., 
+        description="Provider name"
+    )
     model: str = Field(..., description="Model identifier")
     server_url: Optional[str] = Field(None, description="Server URL for local providers")
     api_key: Optional[str] = Field(None, description="API key for cloud providers")
