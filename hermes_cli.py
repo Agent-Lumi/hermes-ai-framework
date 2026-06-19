@@ -282,6 +282,54 @@ def server_list():
         console.print(table)
 
 
+@server.command('start')
+@click.argument('name')
+def server_start(name):
+    """Start an A2A or MCP server"""
+    async def _start():
+        cm = get_config_manager()
+        
+        # Check if it's an A2A server
+        if name in cm.a2a_servers:
+            from core.a2a_server import A2AServer
+            config = cm.a2a_servers[name]
+            server = A2AServer(config)
+            
+            console.print(f"[cyan]Starting A2A server '{name}'...[/cyan]")
+            await server.start()
+            
+            # Keep running
+            try:
+                while True:
+                    await asyncio.sleep(1)
+            except KeyboardInterrupt:
+                await server.stop()
+        
+        # Check if it's an MCP server
+        elif name in cm.mcp_servers:
+            console.print(f"[yellow]MCP servers should be started with: python run_mcp_server.py {name}[/yellow]")
+            return
+        
+        else:
+            console.print(f"[red]Server '{name}' not found.[/red]")
+            console.print("Available servers:")
+            for s in list(cm.a2a_servers.keys()) + list(cm.mcp_servers.keys()):
+                console.print(f"  - {s}")
+    
+    try:
+        asyncio.run(_start())
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Server stopped[/yellow]")
+
+
+@server.command('stop')
+@click.argument('name')
+def server_stop(name):
+    """Stop a server (placeholder - use Ctrl+C to stop)"""
+    console.print(f"[yellow]To stop a server, press Ctrl+C in its terminal[/yellow]")
+    console.print(f"[dim]Server '{name}' state is managed by its process[/dim]")
+
+
 # ============== Framework Commands ==============
 
 @cli.command('init')
