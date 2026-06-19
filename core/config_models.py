@@ -65,7 +65,7 @@ class AnthropicConfig(ProviderConfig):
     api_key: str
 
 
-ProviderConfigUnion = Union[OllamaConfig, OpenAIConfig, AnthropicConfig, ProviderConfig]
+ProviderConfigUnion = Union[OllamaConfig, OpenAIConfig, AnthropicConfig]
 
 
 # ============== Tool Configurations ==============
@@ -119,7 +119,7 @@ class AgentConfig(BaseModel):
     created_at: Optional[datetime] = Field(default_factory=datetime.now)
     
     # Provider configuration
-    provider: ProviderConfigUnion = Field(..., discriminator="name")
+    provider: ProviderConfigUnion = Field(...)
     
     # Capabilities
     capabilities: List[CapabilityType] = []
