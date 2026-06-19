@@ -10,6 +10,8 @@ Hermes AI Framework allows you to spin up and manage:
 
 ## Quick Start
 
+**New?** See the [QUICKSTART.md](QUICKSTART.md) for step-by-step instructions.
+
 ```bash
 # Install dependencies
 pip install -r requirements.txt
