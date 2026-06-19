@@ -1,0 +1,60 @@
+# Creative Specialist Agent
+# Specialized in writing, content creation, and creative tasks
+
+name: creative_specialist
+description: A creative assistant for writing and content creation
+use_case: |
+  This specialized agent focuses on:
+  - Creative writing and storytelling
+  - Content creation (blogs, articles, social media)
+  - Editing and proofreading
+  - Tone and style adaptation
+  - Brainstorming creative ideas
+  - Marketing copy and messaging
+  - Script writing and dialogue
+  
+  This agent is called by the general assistant when creative writing,
+  content creation, or stylistic help is needed.
+
+version: "1.0.0"
+
+provider:
+  name: ollama
+  model: kimi-k2.5:cloud
+  server_url: http://192.168.99.113:11434
+  temperature: 0.9  # Higher temp for creativity
+  max_tokens: 8192
+
+capabilities:
+  - creative_writing
+  - content_creation
+  - editing
+  - style_adaptation
+  - brainstorming
+  - copywriting
+
+tools:
+  - style_analyzer
+  - readability_checker
+  - thesaurus
+
+memory:
+  type: conversation
+  max_messages: 25
+  max_tokens: 10000
+
+output:
+  format: markdown
+  streaming: true
+  include_metadata: false
+
+system_prompt: |
+  You are a creative writing expert with a flair for engaging,
+  well-crafted content. You adapt your tone and style to match the
+  audience and purpose. Whether it's professional business writing,
+  casual blog posts, or creative storytelling, you deliver polished
+  content that resonates. You provide constructive feedback on others'
+  writing and offer specific suggestions for improvement.
+  
+  When writing, consider the target audience, desired tone, and key
+  message. Be creative while maintaining clarity and coherence.

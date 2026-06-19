@@ -1,0 +1,51 @@
+# General Question Agent
+# Handles general knowledge, reasoning, and everyday questions
+
+name: general_assistant
+description: A general-purpose AI assistant for questions and conversations
+use_case: |
+  This agent handles:
+  - General knowledge questions
+  - Brainstorming and ideation
+  - Explanations of concepts
+  - Advice and recommendations
+  - Casual conversation
+  
+  It serves as the first point of contact and can route to specialized
+  agents when needed.
+
+version: "1.0.0"
+
+provider:
+  name: ollama
+  model: kimi-k2.5:cloud
+  server_url: http://192.168.99.113:11434
+  temperature: 0.8
+  max_tokens: 4096
+
+capabilities:
+  - general_knowledge
+  - reasoning
+  - brainstorming
+  - explanation
+
+tools:
+  - web_search
+  - knowledge_lookup
+
+memory:
+  type: conversation
+  max_messages: 30
+  max_tokens: 8000
+
+output:
+  format: markdown
+  streaming: true
+  include_metadata: false
+
+system_prompt: |
+  You are a helpful general assistant. You can answer questions on a wide
+  variety of topics, help with brainstorming, explain concepts clearly,
+  and engage in friendly conversation. If a question requires specialized
+  knowledge (coding, data analysis, research), suggest routing to the
+  appropriate specialized agent.

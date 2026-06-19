@@ -4,10 +4,12 @@ Model Context Protocol server implementation
 """
 import asyncio
 import json
+import time
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
 
 from .config_models import MCPServerConfig, ToolConfig
+from .logger import get_logger
 
 
 @dataclass
@@ -29,6 +31,7 @@ class MCPServer:
         self.tools: Dict[str, Callable] = {}
         self.resources: Dict[str, Any] = {}
         self.is_running = False
+        self.logger = get_logger().get_server_logger(config.name)
     
     def register_tool(self, name: str, handler: Callable) -> None:
         """Register a tool handler"""
@@ -187,9 +190,26 @@ class MCPServer:
         if tool_name not in self.tools:
             return {"error": f"Tool '{tool_name}' handler not registered"}
         
+        # Time the execution
+        start_time = time.time()
+        
         try:
             # Execute handler
             result = await self.tools[tool_name](**arguments)
+            
+            duration_ms = (time.time() - start_time) * 1000
+            
+            # Log the tool call
+            from .logger import get_logger
+            get_logger().log_mcp_call(
+                self.config.name,
+                tool_name,
+                arguments,
+                result,
+                duration_ms
+            )
+            
+            self.logger.info(f"Tool '{tool_name}' executed in {duration_ms:.2f}ms")
             
             return {
                 "success": True,
@@ -197,6 +217,20 @@ class MCPServer:
             }
             
         except Exception as e:
+            duration_ms = (time.time() - start_time) * 1000
+            
+            # Log the error
+            from .logger import get_logger
+            get_logger().log_mcp_call(
+                self.config.name,
+                tool_name,
+                arguments,
+                {"error": str(e)},
+                duration_ms
+            )
+            
+            self.logger.error(f"Tool '{tool_name}' failed after {duration_ms:.2f}ms: {e}")
+            
             return {
                 "success": False,
                 "error": str(e)

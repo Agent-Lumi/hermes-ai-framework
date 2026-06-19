@@ -11,6 +11,7 @@ import aiohttp
 from aiohttp import web
 
 from .config_models import A2AServerConfig
+from .logger import get_logger
 
 
 @dataclass
@@ -36,6 +37,7 @@ class A2AServer:
         self.agents: Dict[str, AgentRegistration] = {}
         self.message_queue: asyncio.Queue = asyncio.Queue()
         self.is_running = False
+        self.logger = get_logger().get_server_logger(config.name)
     
     async def start(self) -> None:
         """Start the A2A server"""
@@ -99,7 +101,17 @@ class A2AServer:
             
             self.agents[agent.name] = agent
             
-            print(f"Agent registered: {agent.name} at {agent.endpoint}")
+            # Log the registration
+            from .logger import get_logger
+            get_logger().log_a2a_call(
+                self.config.name,
+                "system",
+                agent.name,
+                "register",
+                {"endpoint": agent.endpoint, "capabilities": agent.capabilities}
+            )
+            
+            self.logger.info(f"Agent registered: {agent.name} at {agent.endpoint}")
             
             return web.json_response({
                 "status": "registered",
@@ -170,6 +182,20 @@ class A2AServer:
                 sender,
                 recipient_agent,
                 message
+            )
+            
+            # Log the message attempt
+            from .logger import get_logger
+            get_logger().log_a2a_call(
+                self.config.name,
+                sender,
+                recipient,
+                "send_message",
+                {
+                    "success": success,
+                    "message_length": len(message),
+                    "recipient_online": recipient_agent.is_online
+                }
             )
             
             if success:

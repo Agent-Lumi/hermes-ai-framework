@@ -7,6 +7,7 @@ from datetime import datetime
 
 from .config_models import AgentConfig, MemoryConfig
 from .providers import BaseProvider, ProviderFactory
+from .logger import get_logger
 
 
 class AgentMemory:
@@ -114,9 +115,22 @@ class Agent:
             self.memory.add_message("user", message)
             self.memory.add_message("assistant", response, message_id=len(self.memory.messages))
             
+            # Log the chat
+            get_logger().log_agent_chat(
+                self.config.name,
+                message,
+                response,
+                {
+                    "provider": self.config.provider.name,
+                    "model": self.config.provider.model,
+                    "memory_used": len(memory_msgs)
+                }
+            )
+            
             return response
             
         except Exception as e:
+            get_logger().error(f"Agent '{self.config.name}' chat error: {e}")
             return f"Error: {str(e)}"
     
     async def chat_stream(self, message: str, **kwargs):
