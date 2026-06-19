@@ -28,12 +28,14 @@ provider:
 capabilities:
   - code_generation
   - code_review
+  - testing
+  - documentation
+
+custom_capabilities:
   - debugging
   - architecture_design
-  - testing
   - refactoring
-
-tools:
+  - git_helper
   - python_executor
   - sql_analyzer
   - execute_python

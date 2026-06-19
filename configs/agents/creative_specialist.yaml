@@ -26,6 +26,10 @@ provider:
   max_tokens: 8192
 
 capabilities:
+  - documentation
+  - web_research
+
+custom_capabilities:
   - creative_writing
   - content_creation
   - editing

@@ -24,6 +24,10 @@ provider:
   max_tokens: 4096
 
 capabilities:
+  - web_research
+  - documentation
+
+custom_capabilities:
   - general_knowledge
   - reasoning
   - brainstorming

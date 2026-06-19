@@ -26,7 +26,11 @@ provider:
   max_tokens: 8192
 
 capabilities:
+  - data_analysis
   - web_research
+  - documentation
+
+custom_capabilities:
   - document_analysis
   - fact_checking
   - source_finding
