@@ -1,0 +1,5 @@
+name: ollama_local
+description: Local Ollama instance
+server_url: http://192.168.99.113:11434
+default_model: llama3.2:latest
+timeout: 60

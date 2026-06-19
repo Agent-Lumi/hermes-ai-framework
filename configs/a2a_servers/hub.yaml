@@ -1,0 +1,22 @@
+name: hermes_hub
+description: Central A2A communication hub
+use_case: 'Facilitates agent-to-agent communication:
+
+  - Routes messages between registered agents
+
+  - Provides agent discovery service
+
+  - Handles load balancing between agents'
+version: 1.0.0
+server:
+  host: 0.0.0.0
+  port: 8000
+  protocol: http
+agents:
+- code_assistant
+- data_analyst
+features:
+  discovery: true
+  routing: true
+  load_balancing: true
+  authentication: false

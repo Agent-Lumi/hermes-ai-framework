@@ -1,0 +1,34 @@
+name: tool_registry
+description: MCP server providing tool access to agents
+use_case: 'Exposes tools via MCP protocol:
+
+  - Database queries
+
+  - Web scraping
+
+  - File operations
+
+  - Code execution'
+version: 1.0.0
+transport: stdio
+server: {}
+tools:
+- name: database_query
+  description: Execute SQL queries against a database
+  parameters:
+  - name: connection_string
+    type: string
+    description: Database connection string
+    required: true
+  - name: query
+    type: string
+    description: SQL query to execute
+    required: true
+- name: web_scrape
+  description: Scrape content from a web page
+  parameters:
+  - name: url
+    type: string
+    description: URL to scrape
+    required: true
+resources: []

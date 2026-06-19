@@ -1,0 +1,25 @@
+name: data_analyst
+description: Analyzes data and creates visualizations
+use_case: 'This agent helps with:
+
+  - Data analysis and exploration
+
+  - Creating charts and visualizations
+
+  - Statistical analysis
+
+  - Data cleaning and transformation'
+version: 1.0.0
+provider:
+  name: ollama
+  model: llama3.2:latest
+  server_url: http://192.168.99.113:11434
+capabilities:
+- data_analysis
+- documentation
+memory:
+  type: conversation
+  max_messages: 15
+output:
+  format: markdown
+  streaming: true
