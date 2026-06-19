@@ -1,0 +1,14 @@
+name: code_tools
+description: MCP server for code execution and analysis
+use_case: |
+  Provides safe Python code execution and code quality tools:
+  - execute_python: Run Python code in sandbox
+  - lint_code: Check code with flake8/pylint
+  - format_code: Format with black
+  - analyze_complexity: Measure complexity with radon
+
+version: "1.0.0"
+transport: stdio
+server: {}
+tools: []
+resources: []

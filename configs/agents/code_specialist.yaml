@@ -35,7 +35,10 @@ capabilities:
 
 tools:
   - python_executor
-  - linter
+  - sql_analyzer
+  - execute_python
+  - lint_code
+  - format_code
   - git_helper
   - documentation_generator
 

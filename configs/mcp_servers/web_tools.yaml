@@ -1,0 +1,14 @@
+name: web_tools
+description: MCP server for web scraping and search
+use_case: |
+  Provides web access tools for agents:
+  - fetch_url: Download HTML from URLs
+  - extract_text: Extract readable text from HTML
+  - search_duckduckgo: Web search (limited)
+  - check_link: Verify URL accessibility
+
+version: "1.0.0"
+transport: stdio
+server: {}
+tools: []
+resources: []
